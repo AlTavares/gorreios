@@ -9,6 +9,18 @@ var expectedTracking = Tracking{
 	ID: "PO875228513BR",
 	Events: Events{
 		{
+			Description: "Objeto entregue ao destinatário",
+			DateRaw:     "07/11/2017 16:56 PORTO ALEGRE/RS",
+			DateTime:    time.Date(2017, time.November, 7, 16, 56, 0, 0, timeLocation),
+			City:        "PORTO ALEGRE/RS",
+		},
+		{
+			Description: "Objeto saiu para entrega ao destinatário",
+			DateRaw:     "07/11/2017 11:08 PORTO ALEGRE/RS",
+			DateTime:    time.Date(2017, time.November, 7, 11, 8, 0, 0, timeLocation),
+			City:        "PORTO ALEGRE/RS",
+		},
+		{
 			Description: "Objeto encaminhado de Unidade de Tratamento em PORTO ALEGRE/RS para Unidade de Distribuição em PORTO ALEGRE/RS",
 			DateRaw:     "01/11/2017 20:32 PORTO ALEGRE/RS",
 			DateTime:    time.Date(2017, time.November, 1, 20, 32, 0, 0, timeLocation),
