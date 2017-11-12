@@ -1,4 +1,4 @@
-package gorreios
+package correios
 
 import (
 	"log"
