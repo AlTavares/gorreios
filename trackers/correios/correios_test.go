@@ -1,57 +1,15 @@
 package correios
 
-import "testing"
+import (
+	"testing"
 
-import "github.com/stretchr/testify/assert"
-import "time"
-
-var expectedTracking = Tracking{
-	ID: "PO875228513BR",
-	Events: Events{
-		{
-			Description: "Objeto entregue ao destinatário",
-			DateRaw:     "07/11/2017 16:56 PORTO ALEGRE/RS",
-			DateTime:    time.Date(2017, time.November, 7, 16, 56, 0, 0, timeLocation),
-			City:        "PORTO ALEGRE/RS",
-		},
-		{
-			Description: "Objeto saiu para entrega ao destinatário",
-			DateRaw:     "07/11/2017 11:08 PORTO ALEGRE/RS",
-			DateTime:    time.Date(2017, time.November, 7, 11, 8, 0, 0, timeLocation),
-			City:        "PORTO ALEGRE/RS",
-		},
-		{
-			Description: "Objeto encaminhado de Unidade de Tratamento em PORTO ALEGRE/RS para Unidade de Distribuição em PORTO ALEGRE/RS",
-			DateRaw:     "01/11/2017 20:32 PORTO ALEGRE/RS",
-			DateTime:    time.Date(2017, time.November, 1, 20, 32, 0, 0, timeLocation),
-			City:        "PORTO ALEGRE/RS",
-		},
-		{
-			Description: "Objeto encaminhado de Unidade de Tratamento em RIO DE JANEIRO/RJ para Unidade de Tratamento em PORTO ALEGRE/RS",
-			DateRaw:     "30/10/2017 14:32 RIO DE JANEIRO/RJ",
-			DateTime:    time.Date(2017, time.October, 30, 14, 32, 0, 0, timeLocation),
-			City:        "RIO DE JANEIRO/RJ",
-		},
-		{
-			Description: "Objeto encaminhado de Agência dos Correios em Rio De Janeiro/RJ para Unidade de Tratamento em RIO DE JANEIRO/RJ",
-			DateRaw:     "24/10/2017 18:31 Rio De Janeiro/RJ",
-			DateTime:    time.Date(2017, time.October, 24, 18, 31, 0, 0, timeLocation),
-			City:        "RIO DE JANEIRO/RJ",
-		},
-		{
-			Description: "Objeto postado",
-			DateRaw:     "24/10/2017 16:25 Rio De Janeiro/RJ",
-			DateTime:    time.Date(2017, time.October, 24, 16, 25, 0, 0, timeLocation),
-			City:        "RIO DE JANEIRO/RJ",
-		},
-	},
-}
+	"github.com/stretchr/testify/assert"
+)
 
 func TestGetTrackingInfo(t *testing.T) {
-	tracking, err := GetTrackingInfo("PO875228513BR")
+	trackingInfo, err := GetTrackingInfo("OA580313825BR")
 	assert.Nil(t, err)
-	assert.Equal(t, expectedTracking.ID, tracking.ID)
-	for i := 0; i < len(tracking.Events); i++ {
-		assert.Equal(t, expectedTracking.Events[i], tracking.Events[i])
-	}
+	assert.Equal(t, trackingInfo, trackingStub)
 }
+
+var trackingStub = TrackingInfo{Versao: "3.0", Quantidade: "1", Pesquisa: "Lista de Objetos", Resultado: "Todos os eventos", Objeto: []Objeto{Objeto{Numero: "OA580313825BR", Sigla: "OA", Nome: "ENCOMENDA SEDEX (ETIQ LOGICA)", Categoria: "SEDEX", Evento: []Evento{Evento{CodigoServico: "", CepDestino: "90680000", DiasUteis: "0", DataPostagem: "17/08/2017", Tipo: "BDE", Status: "01", Data: "18/08/2017", Hora: "16:58", Criacao: "18082017165853", Descricao: "Objeto entregue ao destinatário", Unidade: Unidade{Local: "CEE SUL", Codigo: "91910972", Cidade: "PORTO ALEGRE", Uf: "RS", Sto: "00044846", TipoUnidade: "Unidade de Distribuição", Endereco: Endereco{Codigo: "41900", Cep: "91910630", Logradouro: "R CAMAQUA, 408", Numero: "", Localidade: "PORTO ALEGRE", Uf: "RS", Bairro: "Camaqua", Latitude: "-30.10319", Longitude: "-51.23962909999999"}}, DetalheOEC: DetalheOEC{Carteiro: "", Distrito: "", Lista: "", Unidade: ""}, Destino: []Destino(nil), Postagem: Postagem{CepDestino: "", Ar: "", Mp: "", Dh: "", Peso: "", Volume: "", DataProgramada: "", DataPostagem: "", PrazoTratamento: "", CodigoServico: ""}, PrazoGuarda: "0"}, Evento{CodigoServico: "", CepDestino: "90680000", DiasUteis: "0", DataPostagem: "17/08/2017", Tipo: "OEC", Status: "01", Data: "18/08/2017", Hora: "10:08", Criacao: "18082017100821", Descricao: "Objeto saiu para entrega ao destinatário", Unidade: Unidade{Local: "CEE SUL", Codigo: "91910972", Cidade: "PORTO ALEGRE", Uf: "RS", Sto: "00044846", TipoUnidade: "Unidade de Distribuição", Endereco: Endereco{Codigo: "41900", Cep: "91910630", Logradouro: "R CAMAQUA, 408", Numero: "", Localidade: "PORTO ALEGRE", Uf: "RS", Bairro: "Camaqua", Latitude: "-30.10319", Longitude: "-51.23962909999999"}}, DetalheOEC: DetalheOEC{Carteiro: "86844814", Distrito: "313", Lista: "104100034849", Unidade: "91910972"}, Destino: []Destino(nil), Postagem: Postagem{CepDestino: "", Ar: "", Mp: "", Dh: "", Peso: "", Volume: "", DataProgramada: "", DataPostagem: "", PrazoTratamento: "", CodigoServico: ""}, PrazoGuarda: "0"}, Evento{CodigoServico: "", CepDestino: "90680000", DiasUteis: "0", DataPostagem: "17/08/2017", Tipo: "DO", Status: "01", Data: "18/08/2017", Hora: "07:22", Criacao: "18082017072213", Descricao: "Objeto encaminhado ", Unidade: Unidade{Local: "CTE PORTO ALEGRE", Codigo: "90240971", Cidade: "PORTO ALEGRE", Uf: "RS", Sto: "00030478", TipoUnidade: "Unidade Administrativa", Endereco: Endereco{Codigo: "32081", Cep: "91040620", Logradouro: "AV SERTORIO, 4222", Numero: "", Localidade: "PORTO ALEGRE", Uf: "RS", Bairro: "JARDIM SAO PEDRO", Latitude: "-30.0017581", Longitude: "-51.1632724"}}, DetalheOEC: DetalheOEC{Carteiro: "", Distrito: "", Lista: "", Unidade: ""}, Destino: []Destino{Destino{Local: "CEE SUL", Codigo: "91910972", Cidade: "PORTO ALEGRE", Bairro: "Camaqua", Uf: "RS", Endereco: Endereco{Codigo: "41900", Cep: "91910630", Logradouro: "R CAMAQUA, 408", Numero: "", Localidade: "PORTO ALEGRE", Uf: "RS", Bairro: "Camaqua", Latitude: "-30.10319", Longitude: "-51.23962909999999"}}}, Postagem: Postagem{CepDestino: "", Ar: "", Mp: "", Dh: "", Peso: "", Volume: "", DataProgramada: "", DataPostagem: "", PrazoTratamento: "", CodigoServico: ""}, PrazoGuarda: "0"}, Evento{CodigoServico: "", CepDestino: "90680000", DiasUteis: "0", DataPostagem: "17/08/2017", Tipo: "RO", Status: "01", Data: "17/08/2017", Hora: "16:22", Criacao: "17082017162244", Descricao: "Objeto encaminhado ", Unidade: Unidade{Local: "AC BOQUEIRAO", Codigo: "92020970", Cidade: "CANOAS", Uf: "RS", Sto: "00236818", TipoUnidade: "Agência dos Correios", Endereco: Endereco{Codigo: "264118", Cep: "92020970", Logradouro: "R MAJOR SEZEFREDO", Numero: "1240", Localidade: "CANOAS", Uf: "RS", Bairro: "CENTRO", Latitude: "-29.9036069", Longitude: "-51.1739594"}}, DetalheOEC: DetalheOEC{Carteiro: "", Distrito: "", Lista: "", Unidade: ""}, Destino: []Destino{Destino{Local: "CTE PORTO ALEGRE", Codigo: "90240971", Cidade: "PORTO ALEGRE", Bairro: "JARDIM SAO PEDRO", Uf: "RS", Endereco: Endereco{Codigo: "32081", Cep: "91040620", Logradouro: "AV SERTORIO, 4222", Numero: "", Localidade: "PORTO ALEGRE", Uf: "RS", Bairro: "JARDIM SAO PEDRO", Latitude: "-30.0017581", Longitude: "-51.1632724"}}}, Postagem: Postagem{CepDestino: "", Ar: "", Mp: "", Dh: "", Peso: "", Volume: "", DataProgramada: "", DataPostagem: "", PrazoTratamento: "", CodigoServico: ""}, PrazoGuarda: "0"}, Evento{CodigoServico: "4162", CepDestino: "90680000", DiasUteis: "0", DataPostagem: "17/08/2017", Tipo: "PO", Status: "01", Data: "17/08/2017", Hora: "10:37", Criacao: "17082017103729", Descricao: "Objeto postado", Unidade: Unidade{Local: "AC BOQUEIRAO", Codigo: "92020970", Cidade: "CANOAS", Uf: "RS", Sto: "00236818", TipoUnidade: "Agência dos Correios", Endereco: Endereco{Codigo: "264118", Cep: "92020970", Logradouro: "R MAJOR SEZEFREDO", Numero: "1240", Localidade: "CANOAS", Uf: "RS", Bairro: "CENTRO", Latitude: "-29.9036069", Longitude: "-51.1739594"}}, DetalheOEC: DetalheOEC{Carteiro: "", Distrito: "", Lista: "", Unidade: ""}, Destino: []Destino(nil), Postagem: Postagem{CepDestino: "90680000", Ar: "N", Mp: "N", Dh: "N", Peso: ".125", Volume: "0", DataProgramada: "01/01/1900 00:00:00", DataPostagem: "17/08/2017 10:37:29", PrazoTratamento: "0", CodigoServico: "4162"}, PrazoGuarda: "0"}}}}}
