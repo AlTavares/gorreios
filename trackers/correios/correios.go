@@ -4,8 +4,10 @@ import (
 	"bytes"
 	"encoding/json"
 	"encoding/xml"
+	"fmt"
 	"io/ioutil"
 	"net/http"
+	"regexp"
 	"strings"
 	"time"
 
@@ -64,7 +66,6 @@ func GetTrackingInfo(objects ...string) (trackingInfo TrackingInfo, err error) {
 }
 
 func GetTrackingInfoWithOptions(language Language, objectType ObjectType, resultScope ResultScope, objects ...string) (trackingInfo TrackingInfo, err error) {
-
 	data, err := buildPayloadData(language, objectType, resultScope, objects)
 	if err != nil {
 		log.WithField("error", err).Error("Error building payload")
@@ -91,10 +92,14 @@ func codesFromArray(objects []string) string {
 }
 
 func buildPayloadData(language Language, objectType ObjectType, resultScope ResultScope, objects []string) ([]byte, error) {
+	codes := codesFromArray(objects)
+	if !IsCodeValid(codes) {
+		return []byte{}, fmt.Errorf("Invalid object code: %s", codes)
+	}
 	payload := payload{
 		ObjectType: string(objectType),
 		Result:     string(resultScope),
-		Objects:    codesFromArray(objects),
+		Objects:    codes,
 		Language:   string(language),
 	}
 	return xml.Marshal(payload)
@@ -111,4 +116,9 @@ func makeRequestWithData(data []byte) (*http.Response, error) {
 	curl, _ := http2curl.GetCurlCommand(request)
 	log.Debug(curl)
 	return httpClient.Do(request)
+}
+
+func IsCodeValid(code string) bool {
+	var re = regexp.MustCompile(`[A-Z]{2}\d{9}[A-Z]{2}`)
+	return re.MatchString(code)
 }
